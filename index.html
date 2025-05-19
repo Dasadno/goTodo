@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+</head>
+<body>
+    
+    <div class ="Box">
+        <h1>ToDo <span>List</span></h1>
+        <ol id = "tasksList"></ol>
+    </div>
+    
+    <script>
+        
+        async function fetchTasks() {
+            const response = await fetch('/tasks');
+            const tasks = await response.json();
+
+            const list = document.getElementById('tasksList');
+            list.innerHTML = '';
+
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.textContent = task.title;
+
+                list.appendChild(li);
+            })
+        }
+        try {
+        fetchTasks();
+        }
+        catch (err) {
+        console.error('Error, tasks isnt loaded:', err);
+      }
+
+    </script>
+    
+    <style>
+        .Box {
+        width: 300px;
+        margin: 40px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        background-color: #ecb9b9;
+        }
+        h1 {
+        font-size: 24px;
+        text-align: center;
+        }
+        ol {
+        padding-left: 20px;
+        }   
+        li {
+        padding: 8px 0;
+        border-bottom: 1px solid #ccc;
+        }
+    </style>
+</body>
+</html>
