@@ -8,36 +8,175 @@
 <body>
     
     <div class ="Box">
-        <h1>ToDo <span>List</span></h1>
-        <ol id = "tasksList"></ol>
+        <h1 id="todoh1">ToDo<span>List</span></h1>
+        <ol id = "tasksList">
+        </ol>
+
+    <form id="taskForm">
+        <input type="text" id="taskInput" placeholder="Новая задача" required />
+        <button id="submitButton" type="submit">Добавить</button>
+    </form>
     </div>
+
     
     <script>
         
         async function fetchTasks() {
-            const response = await fetch('/tasks');
-            const tasks = await response.json();
+    try {
+        const response = await fetch('/tasks');
+        const tasks = await response.json();
 
-            const list = document.getElementById('tasksList');
-            list.innerHTML = '';
+        const list = document.getElementById('tasksList');
+        list.innerHTML = '';
 
-            tasks.forEach(task => {
-                const li = document.createElement('li');
-                li.textContent = task.title;
+        tasks.forEach(task => {
+            const li = document.createElement('li');
+            li.classList.add('taskItem');
 
-                list.appendChild(li);
-            })
-        }
+            const span = document.createElement('span');
+            span.textContent = task.title;
+
+            const btn = document.createElement('button');
+            btn.className = 'deleteBtn';
+            btn.innerHTML = '🗑️';
+            btn.onclick = async () => {
         try {
-        fetchTasks();
+            const response = await fetch(`/tasks/${task.id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                fetchTasks(); 
+            } else {
+                console.error('Ошибка при удалении:', response.status);
+            }
+        } catch (err) {
+            console.error('Ошибка при удалении задачи:', err);
         }
-        catch (err) {
-        console.error('Error, tasks isnt loaded:', err);
+        };
+            li.appendChild(span);
+            li.appendChild(btn);
+            list.appendChild(li);
+        });
+    } catch (err) {
+        console.error("Ошибка при загрузке задач:", err);
+    }
+}
+        
+      
+
+
+  const form = document.getElementById('taskForm');
+  const input = document.getElementById('taskInput'); 
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const title = input.value.trim(); 
+    if (!title) return;
+
+    try {
+      const response = await fetch('/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: title,      
+          content: "",
+          checkMark: false
+        })
+      });
+
+      if (response.ok) {
+        input.value = "";     
+        fetchTasks();         
+      } else {
+        console.error("Сервер вернул ошибку:", response.status);
       }
+    } catch (err) {
+      console.error("Ошибка при добавлении задачи:", err);
+    }
+  });
+
+  fetchTasks();
 
     </script>
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+       #todoh1 {
+            font-family: "Montserrat";
+            color: #000000;
+        }
+
+        
+
+        
+        #deleteButton {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+
+        }
+        
+        #deleteMark {
+        width: 15px;
+        height: 15px;
+        object-fit: contain;
+
+        }
+
+        #submitButton{
+            display: flex;
+            justify-content: center; 
+            align-items: center;   
+            background-color: #ecb9b9;
+            border: 1px solid;
+            border-radius: 8px;
+            text-align: center;
+            font-family: "Montserrat";
+        }
+
+        form {
+            display: flex;
+            gap: 2;
+            padding: 5px 5px;
+            border-radius: 10px;
+            
+        }
+
+
+        form input {
+        flex: 1;
+        padding: 8px 8px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: "Montserrat";
+        outline: none;
+        transition: border-color 0.2s;
+        }
+
+        .deleteBtn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: background-color 0.2s;
+        }
+
+        .deleteBtn:hover {
+            background-color: #f8d0d0;
+        }
+
+
         .Box {
         width: 300px;
         margin: 40px auto;
@@ -57,6 +196,12 @@
         padding: 8px 0;
         border-bottom: 1px solid #ccc;
         }
+
+        #tasksList {
+            font-family: "Montserrat";
+
+        }
+        
     </style>
 </body>
 </html>
