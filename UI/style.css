@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+       #todoh1 {
+            font-family: "Montserrat";
+            color: #000000;
+        }
+
+        
+
+        
+        #deleteButton {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+
+        }
+        
+        #deleteMark {
+        width: 15px;
+        height: 15px;
+        object-fit: contain;
+
+        }
+
+        #submitButton{
+            display: flex;
+            justify-content: center; 
+            align-items: center;   
+            background-color: #ecb9b9;
+            border: 1px solid;
+            border-radius: 8px;
+            text-align: center;
+            font-family: "Montserrat";
+        }
+
+        form {
+            display: flex;
+            gap: 2;
+            padding: 5px 5px;
+            border-radius: 10px;
+            
+        }
+
+
+        form input {
+        flex: 1;
+        padding: 8px 8px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: "Montserrat";
+        outline: none;
+        transition: border-color 0.2s;
+        }
+
+        .deleteBtn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: background-color 0.2s;
+        }
+
+        .deleteBtn:hover {
+            background-color: #f8d0d0;
+        }
+
+
+        .Box {
+        width: 300px;
+        margin: 40px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        background-color: #ecb9b9;
+        }
+        h1 {
+        font-size: 24px;
+        text-align: center;
+        }
+        ol {
+        padding-left: 20px;
+        }   
+        li {
+        padding: 8px 0;
+        border-bottom: 1px solid #ccc;
+        }
+
+        #tasksList {
+            font-family: "Montserrat";
+
+        }
+        
